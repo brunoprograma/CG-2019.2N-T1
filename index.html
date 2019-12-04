@@ -23,7 +23,7 @@
 			var camera, scene, renderer, model, face, controls;
 			// movement
 			var xSpeed = 0.1;
-			var ySpeed = 0.1;
+			// var ySpeed = 0.1;
 			var zSpeed = 0.1;
 
 			var api = { state: 'rig_dragon|Idle' };
@@ -182,16 +182,18 @@
 					} else if (keyCode == 83) {
 						model.position.z -= zSpeed;
 					} else if (keyCode == 68) {
-						model.rotateY(THREE.Math.degToRad(-xSpeed * 100));
+						model.position.x += xSpeed;
+						// model.rotateY(THREE.Math.degToRad(-xSpeed * 100));
 					} else if (keyCode == 65) {
-						model.rotateY(THREE.Math.degToRad(xSpeed * 100));
-					} else if (keyCode == 70) {
-						model.position.y -= ySpeed;
-					} else if (keyCode == 82) {
-						model.position.y += ySpeed;
-					} else if (keyCode == 27) {  // esc
-						model.position.set(0, 0, 0);
-					}
+						model.position.x -= xSpeed;
+						// model.rotateY(THREE.Math.degToRad(-xSpeed * 100));
+					} // else if (keyCode == 70) {
+					// 	model.position.y -= ySpeed;
+					// } else if (keyCode == 82) {
+					// 	model.position.y += ySpeed;
+					// } else if (keyCode == 27) {  // esc
+					// 	model.position.set(0, 0, 0);
+					// }
 				}
 			};
 
