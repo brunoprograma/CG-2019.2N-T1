@@ -41,46 +41,40 @@ function rotateObject(object, degreeX=0, degreeY=0, degreeZ=0) {
     object.rotateZ(THREE.Math.degToRad(degreeZ));
  }
 
+ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+    const localPrefix = isLast ? '└─' : '├─';
+    lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+    const newPrefix = prefix + (isLast ? '  ' : '│ ');
+    const lastNdx = obj.children.length - 1;
+    obj.children.forEach((child, ndx) => {
+        const isLast = ndx === lastNdx;
+        dumpObject(child, lines, isLast, newPrefix);
+    });
+    return lines;
+}
+
 function addPokemon() {
     var loader = new GLTFLoader();
 
     loader.load(
         // resource URL
-        // modelo extraído de https://github.com/SerafimC/CG-2019.2N-T1 by SerafimC
-        "./totodile/scene.gltf",
+        "./pokemon/scene.gltf",
     
         // onLoad callback
         // Here the loaded data is assumed to be an object
         function ( obj ) {
             // Add the loaded object to the scene
             pokemon = obj.scene;
-            // cabeça
-            pokemon['head'] = pokemon.getObjectByName('Head_027');
-            // mandibula
-            pokemon['jaw'] = pokemon.getObjectByName('Jaw_029');
-            // pescoco
-            pokemon['neck'] = pokemon.getObjectByName('Neck_026');
-            // coluna
-            pokemon['spine'] = pokemon.getObjectByName('Spine_021');
-            // quadris
-            pokemon['hips'] = pokemon.getObjectByName('Hips_04');
+            console.log(dumpObject(pokemon).join('\n'));
             // pes
             pokemon['lfoot'] = pokemon.getObjectByName('LFoot_08');
             pokemon['rfoot'] = pokemon.getObjectByName('RFoot_014');
             // pernas
             pokemon['lthig'] = pokemon.getObjectByName('LThigh_06');
             pokemon['rthig'] = pokemon.getObjectByName('RThigh_012');
-            // cauda
-            pokemon['tail'] = pokemon.getObjectByName('Tail1_018');
             // braco
             pokemon['larm'] = pokemon.getObjectByName('LArm_023');
             pokemon['rarm'] = pokemon.getObjectByName('RArm_032');
-            // antebraco
-            pokemon['lforearm'] = pokemon.getObjectByName('LForeArm_024');
-            pokemon['rforearm'] = pokemon.getObjectByName('LForeArm_024');
-            // mao
-            pokemon['lhand'] = pokemon.getObjectByName('LHand_00');
-            pokemon['rhand'] = pokemon.getObjectByName('RHand_034');
             // actions
             pokemon['walk'] = false;
             pokemon['legdeg'] = 0.0;
