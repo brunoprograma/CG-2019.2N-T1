@@ -1,3 +1,3 @@
-# TRF-CG-2019-2
+# Dragonite UFFS
 
-https://trfcg20192.herokuapp.com/
+https://cg-dragonite.herokuapp.com/
