@@ -20,10 +20,10 @@
 			import { GLTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r110/examples/jsm/loaders/GLTFLoader.js';
 
 			var container, stats, clock, gui, mixer, actions, activeAction, previousAction;
-			var camera, scene, renderer, model, face, controls;
+			var camera, scene, renderer, model, cube, face, controls;
 			// movement
 			var xSpeed = 0.1;
-			// var ySpeed = 0.1;
+			var ySpeed = 0.1;
 			var zSpeed = 0.1;
 
 			var api = { state: 'rig_dragon|Idle' };
@@ -67,7 +67,7 @@
 				grid.material.transparent = true;
 				scene.add( grid );
 
-				// model
+				// pokemon
 
 				var loader = new GLTFLoader();
 				loader.load( './pokemon/scene.gltf', function ( gltf ) {
@@ -82,6 +82,26 @@
 					console.error( e );
 
 				} );
+				
+				// cube
+
+				var textureLoader = new THREE.TextureLoader();
+				var texture0 = textureLoader.load( './cube/textures/uffs.png' );
+
+				var cubeMaterials = [
+					new THREE.MeshBasicMaterial({map: texture0}),
+					new THREE.MeshBasicMaterial({map: texture0}),
+					new THREE.MeshBasicMaterial({map: texture0}),
+					new THREE.MeshBasicMaterial({map: texture0}),
+					new THREE.MeshBasicMaterial({map: texture0}),
+					new THREE.MeshBasicMaterial({map: texture0}),
+				];
+
+				var cubeGeometry = new THREE.BoxGeometry(2,2,2);
+				cube = new THREE.Mesh(cubeGeometry,cubeMaterials);
+				scene.add( cube );
+				cube.position.x -= 4;
+				cube.position.y += 2;	
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -197,7 +217,13 @@
 				}
 			};
 
-			//
+			function rotateCube() {
+				if ( cube != undefined ) {
+					cube.rotation.x -= xSpeed * 0.2;
+					cube.rotation.y -= ySpeed;
+					cube.rotation.z -= zSpeed * 0.3;
+				}
+			}
 
 			function animate() {
 
@@ -206,6 +232,8 @@
 				if ( mixer ) mixer.update( dt );
 
 				requestAnimationFrame( animate );
+
+				rotateCube();
 
 				renderer.render( scene, camera );
 
